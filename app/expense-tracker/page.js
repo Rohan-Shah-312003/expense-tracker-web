@@ -29,11 +29,11 @@ export default function ExpenseTracker() {
       const savedExpenses = localStorage.getItem('expenses');
       const savedBudget = localStorage.getItem('budget');
       const savedMonthStartDate = localStorage.getItem('monthStartDate');
-      
+
       if (savedExpenses) setExpenses(JSON.parse(savedExpenses));
       if (savedBudget) setBudget(savedBudget);
       if (savedMonthStartDate) setMonthStartDate(parseInt(savedMonthStartDate));
-      
+
       setIsLoaded(true);
     } catch (error) {
       console.log('Error loading data:', error);
@@ -53,14 +53,14 @@ export default function ExpenseTracker() {
 
   const handleAddExpense = () => {
     if (description.trim() === '' || amount.trim() === '') return;
-    
+
     const newExpense = {
       id: Date.now().toString(),
       description: description.trim(),
       amount: parseFloat(amount),
       date: new Date(date).toISOString(),
     };
-    
+
     setExpenses([...expenses, newExpense]);
     setDescription('');
     setAmount('');
@@ -82,10 +82,10 @@ export default function ExpenseTracker() {
     const csvRows = expenses
       .sort((a, b) => new Date(b.date) - new Date(a.date))
       .map(expense => [
-        new Date(expense.date).toLocaleDateString('en-US', { 
-          month: 'short', 
-          day: 'numeric', 
-          year: 'numeric' 
+        new Date(expense.date).toLocaleDateString('en-US', {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric'
         }),
         `"${expense.description.replace(/"/g, '""')}"`, // Escape quotes in description
         expense.amount.toFixed(2)
@@ -107,7 +107,7 @@ export default function ExpenseTracker() {
     // Create and download file
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
-    
+
     if (link.download !== undefined) {
       const url = URL.createObjectURL(blob);
       link.setAttribute('href', url);
@@ -124,10 +124,10 @@ export default function ExpenseTracker() {
     const now = new Date();
     const currentYear = now.getFullYear();
     const currentMonth = now.getMonth();
-    
+
     // Determine the current period's start and end
     let startDate, endDate;
-    
+
     if (now.getDate() >= monthStartDate) {
       // We're in the current period that started this month
       startDate = new Date(currentYear, currentMonth, monthStartDate);
@@ -137,7 +137,7 @@ export default function ExpenseTracker() {
       startDate = new Date(currentYear, currentMonth - 1, monthStartDate);
       endDate = new Date(currentYear, currentMonth, monthStartDate - 1);
     }
-    
+
     return expenses.filter(expense => {
       const expenseDate = new Date(expense.date);
       return expenseDate >= startDate && expenseDate <= endDate;
@@ -149,15 +149,15 @@ export default function ExpenseTracker() {
   const budgetValue = parseFloat(budget);
   const remainingBudget = budgetValue - totalSpent;
   const progressPercentage = Math.min((totalSpent / budgetValue) * 100, 100);
-  
+
   // Determine the period string to display (e.g., "May 15 - Jun 14")
   const getPeriodString = () => {
     const now = new Date();
     const currentYear = now.getFullYear();
     const currentMonth = now.getMonth();
-    
+
     let startDate, endDate;
-    
+
     if (now.getDate() >= monthStartDate) {
       // We're in the current period that started this month
       startDate = new Date(currentYear, currentMonth, monthStartDate);
@@ -167,11 +167,11 @@ export default function ExpenseTracker() {
       startDate = new Date(currentYear, currentMonth - 1, monthStartDate);
       endDate = new Date(currentYear, currentMonth, monthStartDate - 1);
     }
-    
+
     const formatDate = (date) => {
       return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
     };
-    
+
     return `${formatDate(startDate)} - ${formatDate(endDate)}`;
   };
 
@@ -189,15 +189,15 @@ export default function ExpenseTracker() {
       <div className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-10">
         <div className="flex justify-between items-center px-5 py-4">
           <h1 className="text-2xl font-bold text-gray-900">Expense Tracker</h1>
-          <button 
+          <button
             onClick={() => setSettingsModalVisible(true)}
-            className="p-2 text-2xl hover:bg-gray-100 rounded-full transition-colors"
+            className="p-2 text-2xl text-gray-700 hover:bg-gray-100 rounded-full transition-colors"
           >
             ⚙️
           </button>
         </div>
       </div>
-      
+
       <div className="max-w-md mx-auto px-4 py-6 space-y-6">
         {/* Budget overview */}
         <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-200">
@@ -216,18 +216,17 @@ export default function ExpenseTracker() {
               </span>
             </div>
           </div>
-          
+
           {/* Progress bar */}
           <div className="mt-4 h-2 bg-gray-200 rounded-full overflow-hidden">
-            <div 
-              className={`h-full transition-all duration-300 ${
-                progressPercentage > 90 ? 'bg-red-500' : 'bg-green-500'
-              }`}
+            <div
+              className={`h-full transition-all duration-300 ${progressPercentage > 90 ? 'bg-red-500' : 'bg-green-500'
+                }`}
               style={{ width: `${progressPercentage}%` }}
             />
           </div>
         </div>
-        
+
         {/* Add expense form */}
         <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-200">
           <h2 className="text-lg font-semibold mb-4 text-gray-700">Add Expense</h2>
@@ -253,7 +252,7 @@ export default function ExpenseTracker() {
               onChange={(e) => setDate(e.target.value)}
               className="w-full p-3 bg-gray-50 rounded-lg border border-gray-200 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
-            <button 
+            <button
               onClick={handleAddExpense}
               className="w-full bg-green-500 text-white p-3 rounded-lg font-medium hover:bg-green-600 transition-colors"
             >
@@ -261,7 +260,7 @@ export default function ExpenseTracker() {
             </button>
           </div>
         </div>
-        
+
         {/* Expense list */}
         <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-200">
           <div className="flex justify-between items-center mb-4">
@@ -285,10 +284,10 @@ export default function ExpenseTracker() {
                         {expense.description}
                       </div>
                       <div className="text-sm text-gray-500">
-                        {new Date(expense.date).toLocaleDateString('en-US', { 
-                          month: 'short', 
-                          day: 'numeric', 
-                          year: 'numeric' 
+                        {new Date(expense.date).toLocaleDateString('en-US', {
+                          month: 'short',
+                          day: 'numeric',
+                          year: 'numeric'
                         })}
                       </div>
                     </div>
@@ -296,7 +295,7 @@ export default function ExpenseTracker() {
                       <span className="font-semibold text-gray-900">
                         ${expense.amount.toFixed(2)}
                       </span>
-                      <button 
+                      <button
                         onClick={() => handleDeleteExpense(expense.id)}
                         className="text-red-500 hover:text-red-700 font-bold px-2 py-1 rounded transition-colors"
                       >
@@ -313,13 +312,13 @@ export default function ExpenseTracker() {
           )}
         </div>
       </div>
-      
+
       {/* Settings Modal */}
       {isSettingsModalVisible && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-lg p-6 w-full max-w-sm">
-            <h2 className="text-xl font-bold mb-4 text-center">Settings</h2>
-            
+            <h2 className="text-xl font-bold mb-4 text-center text-gray-700">Settings</h2>
+
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -331,10 +330,10 @@ export default function ExpenseTracker() {
                   value={budget}
                   onChange={(e) => setBudget(e.target.value)}
                   step="0.01"
-                  className="w-full p-3 bg-gray-50 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full p-3 bg-gray-50 rounded-lg text-gray-400 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Month Start Date
@@ -353,12 +352,12 @@ export default function ExpenseTracker() {
                   }}
                   min="1"
                   max="28"
-                  className="w-full p-3 bg-gray-50 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full p-3 bg-gray-50 rounded-lg border text-gray-400 border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
             </div>
-            
-            <button 
+
+            <button
               onClick={() => setSettingsModalVisible(false)}
               className="w-full bg-blue-500 text-white p-3 rounded-lg font-medium hover:bg-blue-600 transition-colors mt-6"
             >

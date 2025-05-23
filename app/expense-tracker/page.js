@@ -207,7 +207,7 @@ export default function ExpenseTracker() {
           <div className="space-y-2">
             <div className="flex justify-between">
               <span className="text-gray-700">Spent:</span>
-              <span className="font-medium">${totalSpent.toFixed(2)} / ${budgetValue.toFixed(2)}</span>
+              <span className="font-medium text-gray-700">${totalSpent.toFixed(2)} / ${budgetValue.toFixed(2)}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-700">Remaining:</span>
@@ -230,14 +230,14 @@ export default function ExpenseTracker() {
         
         {/* Add expense form */}
         <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-200">
-          <h2 className="text-lg font-semibold mb-4">Add Expense</h2>
+          <h2 className="text-lg font-semibold mb-4 text-gray-700">Add Expense</h2>
           <div className="space-y-3">
             <input
               type="text"
               placeholder="Description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full p-3 bg-gray-50 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full p-3 bg-gray-50 rounded-lg border border-gray-200 text-gray-700  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
             <input
               type="number"
@@ -245,13 +245,13 @@ export default function ExpenseTracker() {
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               step="0.01"
-              className="w-full p-3 bg-gray-50 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full p-3 bg-gray-50 rounded-lg border border-gray-200 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
             <input
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="w-full p-3 bg-gray-50 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full p-3 bg-gray-50 rounded-lg border border-gray-200 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
             <button 
               onClick={handleAddExpense}
@@ -265,7 +265,7 @@ export default function ExpenseTracker() {
         {/* Expense list */}
         <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-200">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-semibold">Recent Expenses</h2>
+            <h2 className="text-lg font-semibold text-gray-700 ">Recent Expenses</h2>
             <button
               onClick={downloadExpensesCSV}
               className="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-600 transition-colors flex items-center space-x-2"
